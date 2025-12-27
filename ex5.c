@@ -1,6 +1,7 @@
 /***********
- ID:
- NAME:
+ ID:322264748
+ NAME:Shani Attiya
+ EX5
 ***********/
 
 #include <stdio.h>
@@ -56,6 +57,68 @@ void deleteEpisode();
 void printEpisode();
 void printShow();
 void printArray();
+
+char *getString()
+{
+ int startSize=10;
+ int length=0;
+ char *size=malloc(startSize*sizeof(char)); //initial allocation
+
+    if(size==NULL)
+    {
+        exit(1);
+    }
+
+    char c=0;
+
+    while((c=getchar())!='\n' && c!=EOF)
+    {
+        if (length==startSize-1)
+        {
+            startSize*=2;
+            size=realloc(size,startSize*sizeof(char));
+            if(size==NULL)
+            {
+                free(size);
+                exit(1);
+            }
+        }
+        size[length]=c;
+        length++;
+       
+    }
+    size[length]='\0';
+    return size;
+}
+void expandDB(){
+    int newSize = dbSize + 1;
+    database = realloc(database, newSize * sizeof(TVShow **));
+    if (database == NULL) {
+        exit(1);
+    }
+    for (int i = 0; i < dbSize; i++)
+    {
+        database[i]=realloc(database[i], newSize * sizeof(TVShow *));
+        if (database[i] == NULL) {
+            exit(1);
+        }
+        database[i][newSize - 1] = NULL;
+        
+    }
+    
+    database[newSize - 1] = (TVShow**)malloc(newSize * sizeof(TVShow*));
+    if (database[newSize - 1] == NULL) {
+        exit(1);
+    }
+
+   
+    for (int j = 0; j < newSize; j++) {
+        database[newSize - 1][j] = NULL;
+    }
+    dbSize = newSize;
+
+}
+
 
 void addMenu() {
     int choice;
